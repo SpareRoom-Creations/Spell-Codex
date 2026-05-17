@@ -32,7 +32,16 @@ export default function SpellCard({ spell, onClick }: { spell: Spell; onClick: (
         </div>
         <div className="flex items-center gap-1.5">
           <BookOpen className="w-3.5 h-3.5 text-secondary" />
-          <span>PHB pg {spell.phbPage}</span>
+          <a
+            href={`/phb.pdf#page=${spell.phbPage}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            data-testid={`link-phb-${spell.id}`}
+            className="text-secondary hover:text-primary underline underline-offset-2 decoration-dotted transition-colors"
+          >
+            PHB pg {spell.phbPage}
+          </a>
         </div>
       </div>
       

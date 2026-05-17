@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Spell } from "@/data/spells";
-import { X, BookOpen, Clock, Ruler, Hourglass, Target, Zap, ShieldAlert } from "lucide-react";
+import { X, BookOpen, Clock, Ruler, Hourglass, Target, Zap, ShieldAlert, ExternalLink } from "lucide-react";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -112,9 +112,18 @@ export default function SpellModal({ spell, onClose }: { spell: Spell; onClose: 
               </p>
             </div>
             
-            <div className="mt-10 pt-4 border-t border-card-border/50 flex items-center justify-end text-xs text-muted-foreground font-mono">
-              <BookOpen className="w-3.5 h-3.5 mr-1.5 text-secondary" />
-              Players Handbook, Page {spell.phbPage}
+            <div className="mt-10 pt-4 border-t border-card-border/50 flex items-center justify-end">
+              <a
+                href={`/phb.pdf#page=${spell.phbPage}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid={`link-phb-modal-${spell.id}`}
+                className="flex items-center gap-1.5 text-xs text-secondary hover:text-primary font-mono underline underline-offset-2 decoration-dotted transition-colors"
+              >
+                <BookOpen className="w-3.5 h-3.5" />
+                Players Handbook, Page {spell.phbPage}
+                <ExternalLink className="w-3 h-3" />
+              </a>
             </div>
           </div>
         </ScrollArea>
