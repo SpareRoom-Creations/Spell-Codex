@@ -6,6 +6,16 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 
+function pdfLink(spell: Spell) {
+  if (spell.source === "UA") return `/ua.pdf#page=${spell.phbPage + 1}`;
+  return `/phb.pdf#page=${spell.phbPage + 1}`;
+}
+
+function sourceBookName(spell: Spell) {
+  if (spell.source === "UA") return "Unearthed Arcana";
+  return "Players Handbook";
+}
+
 export default function SpellModal({ spell, onClose }: { spell: Spell; onClose: () => void }) {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -36,7 +46,14 @@ export default function SpellModal({ spell, onClose }: { spell: Spell; onClose: 
         
         <div className="flex items-start justify-between p-6 pb-4 border-b border-card-border/50 bg-black/5">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-primary mb-1">{spell.name}</h2>
+            <div className="flex items-center gap-2 mb-1">
+              <h2 className="text-3xl sm:text-4xl font-serif font-bold text-primary">{spell.name}</h2>
+              {spell.source === "UA" && (
+                <span className="text-xs font-mono font-bold px-2 py-1 rounded border border-secondary/60 text-secondary bg-secondary/10 mt-1 self-start">
+                  Unearthed Arcana
+                </span>
+              )}
+            </div>
             <div className="flex items-center gap-2 text-sm font-serif italic text-muted-foreground">
               <span>{spell.class}</span>
               <span>•</span>
@@ -114,14 +131,14 @@ export default function SpellModal({ spell, onClose }: { spell: Spell; onClose: 
             
             <div className="mt-10 pt-4 border-t border-card-border/50 flex items-center justify-end">
               <a
-                href={`/phb.pdf#page=${spell.phbPage + 1}`}
+                href={pdfLink(spell)}
                 target="_blank"
                 rel="noopener noreferrer"
-                data-testid={`link-phb-modal-${spell.id}`}
+                data-testid={`link-source-modal-${spell.id}`}
                 className="flex items-center gap-1.5 text-xs text-secondary hover:text-primary font-mono underline underline-offset-2 decoration-dotted transition-colors"
               >
                 <BookOpen className="w-3.5 h-3.5" />
-                Players Handbook, Page {spell.phbPage}
+                {sourceBookName(spell)}, Page {spell.phbPage}
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>

@@ -10,6 +10,16 @@ interface SpellCardProps {
   onToggleFavorite: (id: string) => void;
 }
 
+function pdfLink(spell: Spell) {
+  if (spell.source === "UA") return `/ua.pdf#page=${spell.phbPage + 1}`;
+  return `/phb.pdf#page=${spell.phbPage + 1}`;
+}
+
+function sourceLabel(spell: Spell) {
+  if (spell.source === "UA") return "UA";
+  return "PHB";
+}
+
 export default function SpellCard({ spell, onClick, isFavorite, onToggleFavorite }: SpellCardProps) {
   return (
     <motion.div
@@ -22,11 +32,16 @@ export default function SpellCard({ spell, onClick, isFavorite, onToggleFavorite
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
       <div className="flex justify-between items-start mb-2 relative z-10">
-        <h3 className="font-serif font-bold text-lg text-foreground leading-tight pr-2">{spell.name}</h3>
+        <div className="flex items-start gap-2 flex-1 min-w-0">
+          <h3 className="font-serif font-bold text-lg text-foreground leading-tight">{spell.name}</h3>
+          {spell.source === "UA" && (
+            <span className="shrink-0 text-[9px] font-mono font-bold px-1 py-0.5 rounded border border-secondary/60 text-secondary bg-secondary/10 mt-0.5">UA</span>
+          )}
+        </div>
         <button
           data-testid={`button-favorite-${spell.id}`}
           onClick={(e) => { e.stopPropagation(); onToggleFavorite(spell.id); }}
-          className={`shrink-0 p-0.5 rounded transition-colors ${isFavorite ? "text-secondary" : "text-muted-foreground/40 hover:text-secondary/70"}`}
+          className={`shrink-0 p-0.5 ml-1 rounded transition-colors ${isFavorite ? "text-secondary" : "text-muted-foreground/40 hover:text-secondary/70"}`}
           aria-label={isFavorite ? "Remove from spellbook" : "Add to spellbook"}
         >
           <Star className={`w-4 h-4 ${isFavorite ? "fill-secondary" : ""}`} />
@@ -49,14 +64,14 @@ export default function SpellCard({ spell, onClick, isFavorite, onToggleFavorite
         <div className="flex items-center gap-1.5">
           <BookOpen className="w-3.5 h-3.5 text-secondary" />
           <a
-            href={`/phb.pdf#page=${spell.phbPage + 1}`}
+            href={pdfLink(spell)}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
             data-testid={`link-phb-${spell.id}`}
             className="text-secondary hover:text-primary underline underline-offset-2 decoration-dotted transition-colors"
           >
-            PHB pg {spell.phbPage}
+            {sourceLabel(spell)} pg {spell.phbPage}
           </a>
         </div>
       </div>
