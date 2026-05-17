@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "AD&D Spell Compendium"
+version = "1.0.0"
+id = "artifacts/spell-compendium"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18717
+
+[services.development]
+run = "pnpm --filter @workspace/spell-compendium run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/spell-compendium", "run", "build" ]
+publicDir = "artifacts/spell-compendium/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18717"
+BASE_PATH = "/"
