@@ -114,7 +114,7 @@ export default function SpellModal({ spell, onClose }: { spell: Spell; onClose: 
             
             <div className="mt-10 pt-4 border-t border-card-border/50 flex items-center justify-end">
               <a
-                href={`/phb.pdf#page=${spell.phbPage}`}
+                href={`/phb.pdf#page=${spell.phbPage + 1}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid={`link-phb-modal-${spell.id}`}

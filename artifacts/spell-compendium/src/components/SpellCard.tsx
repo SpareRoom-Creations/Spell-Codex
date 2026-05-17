@@ -33,7 +33,7 @@ export default function SpellCard({ spell, onClick }: { spell: Spell; onClick: (
         <div className="flex items-center gap-1.5">
           <BookOpen className="w-3.5 h-3.5 text-secondary" />
           <a
-            href={`/phb.pdf#page=${spell.phbPage}`}
+            href={`/phb.pdf#page=${spell.phbPage + 1}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
